@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowRightIcon from '../assets/svg/ArrowRightIcon';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
+import { signInUser } from '../services/user-service';
+import { toast } from 'react-toastify';
+import { warn, notify } from '../utils/alerts';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,6 +12,8 @@ const SignIn = () => {
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   const { email, password } = formData;
 
@@ -19,18 +24,28 @@ const SignIn = () => {
     });
   };
 
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const userCredential = await signInUser(formData);
+      const user = userCredential.user;
+
+      if (user) {
+        notify('Your are Logged In!');
+        navigate('/');
+      }
+    } catch (error) {
+      warn('Bad Credentials!');
+    }
+  };
+
   return (
     <>
       <div className="pageContainer">
         <header>
           <p className="pageHeader">Welcome Back</p>
         </header>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            console.log(formData);
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
             id="email"

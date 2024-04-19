@@ -28,6 +28,7 @@ const SignUp = () => {
      registerUser(formData);
       navigate('/');
     } catch (error) {
+      navigate("/sign-in")
       console.log(error);
     }
   };
