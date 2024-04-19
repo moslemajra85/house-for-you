@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowRightIcon from '../assets/svg/ArrowRightIcon';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
+import { registerUser } from '../services/user-service';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,12 +12,24 @@ const SignUp = () => {
     password: '',
   });
 
- 
+  const navigate = useNavigate();
+
   const onChange = (event) => {
     setFormData({
       ...formData,
       [event.target.id]: event.target.value,
     });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+     registerUser(formData);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -26,10 +39,7 @@ const SignUp = () => {
           <p className="pageHeader">Sign Up</p>
         </header>
         <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            console.log(formData);
-          }}
+          onSubmit={handleSubmit}
         >
           <input
             type="text"
