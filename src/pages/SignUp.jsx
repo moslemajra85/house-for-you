@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ArrowRightIcon from '../assets/svg/ArrowRightIcon';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 import { registerUser } from '../services/user-service';
+import { warn, notify } from '../utils/alerts';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,11 +26,10 @@ const SignUp = () => {
     event.preventDefault();
 
     try {
-     registerUser(formData);
+      registerUser(formData);
       navigate('/');
     } catch (error) {
-      navigate("/sign-in")
-      console.log(error);
+      warn('Something went wrong with registration');
     }
   };
 
@@ -39,9 +39,7 @@ const SignUp = () => {
         <header>
           <p className="pageHeader">Sign Up</p>
         </header>
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             id="name"

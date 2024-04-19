@@ -6,7 +6,14 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp, getFirestore } from 'firebase/firestore';
+
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '../../firebase-config';
 
 export const registerUser = async (userData) => {
@@ -42,4 +49,13 @@ export const signInUser = (userData) => {
 export const logout = () => {
   const auth = getAuth();
   return signOut(auth);
+};
+
+export const updateUserProfile = async (userData) => {
+  const auth = getAuth();
+  await updateProfile(auth.currentUser, userData);
+
+  // update fireStore
+  const userRef = doc(db, 'users', auth.currentUser.uid);
+  return updateDoc(userRef, userData);
 };
