@@ -10,10 +10,10 @@ import { updateUserProfile } from '../services/user-service';
 import { warn, notify } from '../utils/alerts';
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
   const [changeDetails, setChangeDetails] = useState(false);
+  const [user, setUser] = useState(null);
 
-  
+  const auth = getAuth();
 
   const navigate = useNavigate();
 
@@ -21,24 +21,20 @@ const Profile = () => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { displayName, email } = user;
         setUser({
-          name: displayName,
-          email,
+          name: user.displayName,
+          email: user.email,
         });
-        // ...
       } else {
-        setUser(null);
-        navigate('/');
+        navigate('/sign-in');
       }
     });
   }, []);
 
- 
   const handleLogout = () => {
     logout()
       .then(() => {
-        notify("You are logged out!");
+        notify('You are logged out!');
       })
       .catch((error) => {
         console.log(error);
@@ -46,12 +42,11 @@ const Profile = () => {
   };
 
   const handleSubmit = async () => {
- 
     try {
       await updateUserProfile({
         displayName: user.name,
       });
-      notify("You details has been updated!")
+      notify('You details has been updated!');
     } catch (error) {
       warn('Could Not Update Profile Details!');
     }
@@ -59,13 +54,13 @@ const Profile = () => {
 
   const handleChange = (event) => {
     setUser({
-      ...user,
       [event.target.id]: event.target.value,
     });
   };
+
   if (!user)
     return (
-      <div className="loader">
+      <div>
         <Puff />
       </div>
     );

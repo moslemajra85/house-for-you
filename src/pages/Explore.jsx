@@ -1,4 +1,4 @@
-import React from 'react';
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const Explore = () => {
   return <div>Explore</div>;

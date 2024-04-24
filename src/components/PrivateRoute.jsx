@@ -1,8 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { Puff } from 'react-loader-spinner';
 
-const PrivateRoute = ({ user, redirectPath = 'sign-in', children }) => {
-  if (!user) return <Navigate to={redirectPath} replace />;
-  return children ? children : <Outlet />;
+import useAuthStatus from '../hooks/useAuthStatus';
+const PrivateRoute = () => {
+  const { loggedIn, loading } = useAuthStatus();
+
+  if (loading) return <Puff />;
+
+  loggedIn ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
 export default PrivateRoute;

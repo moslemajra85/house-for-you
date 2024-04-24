@@ -4,6 +4,7 @@ import ArrowRightIcon from '../assets/svg/ArrowRightIcon';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 import { registerUser } from '../services/user-service';
 import { warn, notify } from '../utils/alerts';
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -84,6 +85,7 @@ const SignUp = () => {
           </div>
         </form>
         {/* Google oAuth */}
+        <OAuth />
         <Link to="/sign-in" className="registerLink">
           Sign In Instead
         </Link>
