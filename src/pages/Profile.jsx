@@ -11,7 +11,10 @@ import { warn, notify } from '../utils/alerts';
 
 const Profile = () => {
   const [changeDetails, setChangeDetails] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name: "",
+    email: ""
+  });
 
   const auth = getAuth();
 
