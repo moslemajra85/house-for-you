@@ -9,8 +9,10 @@ import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
 import Navbar from './components/Navbar';
+import Catgeory from './pages/Catgeory';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './components/PrivateRoute';
+
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Explore />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/category/:categoryName" element={<Catgeory />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
